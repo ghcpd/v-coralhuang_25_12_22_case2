@@ -39,11 +39,11 @@ def main():
     )
     
     if result.returncode != 0:
-        print("❌ Database seeding failed!")
+        print("FAILED: Database seeding failed!")
         print(result.stderr)
         return 1
     
-    print("✓ Database seeded successfully")
+    print("[OK] Database seeded successfully")
     print(result.stdout)
     
     print("\n[2/3] Running baseline and optimized workload tests...")
@@ -58,7 +58,7 @@ def main():
     )
     
     if result.returncode != 0:
-        print("❌ Workload tests failed!")
+        print("FAILED: Workload tests failed!")
         print(result.stdout)
         print(result.stderr)
         return 1
@@ -81,27 +81,27 @@ def main():
     optimized = comparison['optimized']['latency_ms']
     improvements = comparison['improvements']
     
-    print("\n📊 Latency Metrics:")
-    print(f"  P50:  {baseline['p50']:.2f}ms → {optimized['p50']:.2f}ms  (↓{improvements['p50_latency_reduction_percent']:.1f}%)")
-    print(f"  P95:  {baseline['p95']:.2f}ms → {optimized['p95']:.2f}ms  (↓{improvements['p95_latency_reduction_percent']:.1f}%)")
-    print(f"  P99:  {baseline['p99']:.2f}ms → {optimized['p99']:.2f}ms  (↓{improvements['p99_latency_reduction_percent']:.1f}%)")
-    print(f"  Mean: {baseline['mean']:.2f}ms → {optimized['mean']:.2f}ms")
+    print("\nLatency Metrics:")
+    print(f"  P50:  {baseline['p50']:.2f}ms -> {optimized['p50']:.2f}ms  (REDUCE {improvements['p50_latency_reduction_percent']:.1f}%)")
+    print(f"  P95:  {baseline['p95']:.2f}ms -> {optimized['p95']:.2f}ms  (REDUCE {improvements['p95_latency_reduction_percent']:.1f}%)")
+    print(f"  P99:  {baseline['p99']:.2f}ms -> {optimized['p99']:.2f}ms  (REDUCE {improvements['p99_latency_reduction_percent']:.1f}%)")
+    print(f"  Mean: {baseline['mean']:.2f}ms -> {optimized['mean']:.2f}ms")
     
-    print("\n✅ SLA Compliance:")
+    print("\nSLA Compliance:")
     sla = comparison['sla_compliance']
     targets = {'p50': 150, 'p95': 300, 'p99': 500}
     
     for metric, target in targets.items():
         baseline_ok = sla['baseline'].get(f'{metric}_ok', False)
         optimized_ok = sla['optimized'].get(f'{metric}_ok', False)
-        status = "✓ PASS" if optimized_ok else "✗ FAIL"
+        status = "[PASS]" if optimized_ok else "[FAIL]"
         print(f"  {metric.upper()}: {status} (target: {target}ms)")
     
-    print("\n📈 Query Efficiency:")
-    print(f"  Avg Queries/Request: {comparison['baseline']['query_metrics']['average_per_request']:.2f} → {comparison['optimized']['query_metrics']['average_per_request']:.2f}")
+    print("\nQuery Efficiency:")
+    print(f"  Avg Queries/Request: {comparison['baseline']['query_metrics']['average_per_request']:.2f} -> {comparison['optimized']['query_metrics']['average_per_request']:.2f}")
     
     print("\n" + "="*80)
-    print("✅ TEST COMPLETE - All artifacts saved to: test_results/")
+    print("[OK] TEST COMPLETE - All artifacts saved to: test_results/")
     print("="*80)
     
     return 0
