@@ -5,15 +5,26 @@ and produces before/after performance comparison artifacts.
 
 Usage:
     python run_tests.py
+    OR (explicitly)
+    .venv\\Scripts\\python.exe run_tests.py
 """
 import json
 import subprocess
 import sys
 from pathlib import Path
 
+def get_python_executable():
+    """Get the correct Python executable (venv if available, else system)."""
+    script_dir = Path(__file__).parent
+    venv_python = script_dir / '.venv' / 'Scripts' / 'python.exe'
+    if venv_python.exists():
+        return str(venv_python)
+    return sys.executable
+
 def main():
     """Execute the complete test suite."""
     script_dir = Path(__file__).parent
+    python_exe = get_python_executable()
     
     print("="*80)
     print("PERFORMANCE OPTIMIZATION TEST SUITE")
@@ -21,7 +32,7 @@ def main():
     
     print("\n[1/3] Seeding database with 10k users and 15k follower relationships...")
     result = subprocess.run(
-        [sys.executable, "seed_db.py"],
+        [python_exe, "seed_db.py"],
         cwd=script_dir,
         capture_output=True,
         text=True
@@ -40,7 +51,7 @@ def main():
     print("(Full test: 2000 requests at 50 concurrency)")
     
     result = subprocess.run(
-        [sys.executable, "run_complete_test.py"],
+        [python_exe, "run_complete_test.py"],
         cwd=script_dir,
         capture_output=True,
         text=True
