@@ -1,0 +1,1 @@
+Optimized followers handler to use join instead of N+1

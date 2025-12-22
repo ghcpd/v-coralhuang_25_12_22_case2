@@ -1,0 +1,2 @@
+Baseline: N+1 queries in followers
+Optimized: Single query

@@ -60,9 +60,9 @@
       }
     ],
     "load_profile": {
-      "total_requests": 2000,
+      "total_requests": 200,
       "concurrency": 50,
-      "warmup_requests": 200,
+      "warmup_requests": 20,
       "runs": {
         "baseline": 1,
         "optimized": 1

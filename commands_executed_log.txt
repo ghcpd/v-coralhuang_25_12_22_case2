@@ -1,0 +1,3 @@
+Ran seed_db.py
+Ran workload baseline
+Ran workload optimized
