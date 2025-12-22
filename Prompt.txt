@@ -1,4 +1,4 @@
-You are a **senior backend engineer** with strong experience in API performance tuning, database optimization, and production-grade benchmarking. You are expected to work hands-on, modify real code, and run real tests. Superficial analysis or hypothetical answers are not acceptable.
+You are a **senior backend engineer** with strong experience in API performance tuning, database optimization, and production-grade benchmarking. You are expected to work hands-on, modify real code, and run real tests. Avoid purely hypothetical claims; back up key improvements with actual measurements.
 
 Sub-Type: Performance optimization
 
@@ -16,7 +16,7 @@ Your optimization task is driven by a single canonical JSON file named `input`. 
 * required evidence artifacts and explicit failure conditions
 
 Your job is **NOT** to design or propose a testing framework.
-Your job is to **optimize the actual API implementation** so that when the workload defined in `input` is executed, the measured latency meets the SLA, while preserving correctness and REST constraints (statelessness, Bearer-token authentication, pagination semantics, and stable JSON contracts).
+Your job is to **optimize the actual API implementation** so that when the workload defined in `input` is executed, the measured latency improves meaningfully and ideally meets the SLA, while preserving correctness and REST constraints (statelessness, Bearer-token authentication, pagination semantics, and stable JSON contracts).
 
 Your optimization work is expected to include, but is not limited to:
 
@@ -25,33 +25,32 @@ Your optimization work is expected to include, but is not limited to:
 * reducing ORM inefficiencies in paginated collection endpoints
 * ensuring authentication and pagination logic do not introduce unnecessary overhead
 
-You must validate every claimed improvement by **actually running the workload** defined in `input`.
+You must validate the optimization by **actually running the workload** defined in `input`. A single baseline run and a single optimized run is acceptable if results are clear; run additional repetitions only if variance makes conclusions ambiguous.
 
 Inputs / How to Execute the Test:
 
 * File: `input` (canonical JSON)
 * You must read and interpret `input` directly; do not hardcode assumptions outside what is specified there.
 * `{{TOKEN}}` must be supplied via an environment variable named `TOKEN`.
-* You must execute the workload multiple times (before and after optimization) to validate improvements and rule out regressions or noise.
 
 Expected Deliverable / Evidence:
 
 * `README.md` that clearly explains:
 
-  * what you optimized and why, including concrete root-cause analysis tied to observed latency
-  * how `input` is used and how to reproduce the results step by step
-  * how to run the optimized system and verify that the SLA is met
+  * what you optimized and why (root cause + change summary)
+  * how `input` is used and how to reproduce results step by step
+  * how to run the optimized system and validate the outcome
 
 * A reproducible environment definition:
 
   * at minimum `requirements.txt`
   * optionally a `Dockerfile` if isolation is required
 
-* A `run_tests` script (one-command runner) that **you actually use** to produce results, which:
+* A `run_tests` script (one-command runner) that you use to produce results, which:
 
-  1. verifies the service defined by `input.base_url` is reachable,
-  2. executes the workload exactly as described in `input` using `TOKEN`,
-  3. reports P50 / P95 / P99 latency, HTTP status distribution, error rate, and explicit pass/fail against `input.metrics`,
-  4. emits the evidence artifacts required by `input.evidence_required`, including before/after comparisons and supporting logs.
+  1. verifies the service defined by `input.base_url` is reachable
+  2. executes the workload exactly as described in `input` using `TOKEN`
+  3. reports P50 / P95 / P99 latency, HTTP status distribution, error rate, and pass/fail (if thresholds are provided)
+  4. emits the evidence artifacts required by `input.evidence_required`, including before/after results and supporting logs
 
-* Concrete before/after evidence demonstrating that the SLA is satisfied **after** optimization, plus the minimal patch set (code changes and/or database migrations) required to reproduce the improvement.
+* Concrete before/after evidence showing performance improvement, plus the minimal patch set (code changes and/or database migrations) required to reproduce the result.
