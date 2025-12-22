@@ -1,56 +1,54 @@
-You are a **senior backend engineer** with strong experience in API performance tuning, database optimization, and production-grade benchmarking. You are expected to work hands-on, modify real code, and run real tests. Avoid purely hypothetical claims; back up key improvements with actual measurements.
+You are a senior backend engineer experienced in API performance tuning and database optimization.
+You will work hands-on: modify real code, run real tests, and produce concrete before/after evidence.
+Avoid speculative claims; support conclusions with measurements.
 
 Sub-Type: Performance optimization
 
-Example Scenarios to Test:
-You are facing an API whose response latency exceeds the defined SLA threshold under realistic load conditions on paginated REST endpoints protected by Bearer-token authentication.
+Scenario:
+A paginated REST API implementation is too slow under concurrent access.
 
-Your optimization task is driven by a single canonical JSON file named `input`. This file is the **single source of truth** and fully defines the target system and constraints, including:
+Single source of truth:
+A canonical JSON file named `input` defines the workload, dataset assumptions, SLA thresholds,
+required artifacts, and failure conditions.
 
-* `base_url` of the running service
-* an auth token placeholder `{{TOKEN}}`
-* the exact request set that must be optimized (`GET /api/users` and `GET /api/users/1/followers` with `page=1&per_page=100`)
-* the load profile (`total_requests=2000`, `concurrency=50`)
-* SLA requirements (P50 / P95 / P99 latency thresholds)
-* expected HTTP status and allowed error rate
-* required evidence artifacts and explicit failure conditions
+Important execution note:
+Due to local execution constraints (e.g. Windows environment),
+performance validation does NOT require starting an external HTTP server or Gunicorn.
+Instead, you must execute the workload by invoking the API handler logic directly
+within the process, using concurrent execution to simulate load.
 
-Your job is **NOT** to design or propose a testing framework.
-Your job is to **optimize the actual API implementation** so that when the workload defined in `input` is executed, the measured latency improves meaningfully and ideally meets the SLA, while preserving correctness and REST constraints (statelessness, Bearer-token authentication, pagination semantics, and stable JSON contracts).
+This approach is intentional and acceptable for this task, as long as:
+- the same code paths used by the HTTP API are exercised,
+- authentication logic is applied consistently,
+- database access patterns and ORM behavior are preserved.
 
-Your optimization work is expected to include, but is not limited to:
+Do NOT ask the user to start a server, provide a token, or confirm service availability.
+All required configuration is provided by `input`.
 
-* eliminating avoidable database work (e.g. redundant `count()` calls, N+1 relationship queries)
-* improving query plans and adding or adjusting indexes where necessary
-* reducing ORM inefficiencies in paginated collection endpoints
-* ensuring authentication and pagination logic do not introduce unnecessary overhead
+Your job:
+Optimize the actual API implementation so that, when executing the workload defined in `input`,
+measured latency improves meaningfully and ideally meets the SLA.
+Preserve correctness and API semantics (authentication behavior, pagination logic,
+stable JSON contract).
 
-You must validate the optimization by **actually running the workload** defined in `input`. A single baseline run and a single optimized run is acceptable if results are clear; run additional repetitions only if variance makes conclusions ambiguous.
+Execution steps:
+1) Read `input`.
+2) Seed the dataset if required.
+3) Identify the core API handler functions corresponding to the endpoints in `input`.
+4) Execute the baseline workload by invoking these handlers directly with concurrent execution.
+5) Collect required artifacts (latency distribution, query counts, slow queries).
+6) Identify performance bottlenecks (e.g. N+1 queries, redundant counts, missing indexes).
+7) Apply minimal, well-justified optimizations.
+8) Re-run the workload using the same in-process execution model.
+9) Produce before/after artifacts and a concise optimization summary.
 
-Inputs / How to Execute the Test:
-
-* File: `input` (canonical JSON)
-* You must read and interpret `input` directly; do not hardcode assumptions outside what is specified there.
-* `{{TOKEN}}` must be supplied via an environment variable named `TOKEN`.
-
-Expected Deliverable / Evidence:
-
-* `README.md` that clearly explains:
-
-  * what you optimized and why (root cause + change summary)
-  * how `input` is used and how to reproduce results step by step
-  * how to run the optimized system and validate the outcome
-
-* A reproducible environment definition:
-
-  * at minimum `requirements.txt`
-  * optionally a `Dockerfile` if isolation is required
-
-* A `run_tests` script (one-command runner) that you use to produce results, which:
-
-  1. verifies the service defined by `input.base_url` is reachable
-  2. executes the workload exactly as described in `input` using `TOKEN`
-  3. reports P50 / P95 / P99 latency, HTTP status distribution, error rate, and pass/fail (if thresholds are provided)
-  4. emits the evidence artifacts required by `input.evidence_required`, including before/after results and supporting logs
-
-* Concrete before/after evidence showing performance improvement, plus the minimal patch set (code changes and/or database migrations) required to reproduce the result.
+Deliverables:
+- README.md explaining what was optimized, why, and how results were obtained.
+- requirements.txt.
+- run_tests: a one-command runner that:
+  a) reads `input`,
+  b) seeds data if needed,
+  c) runs baseline and optimized workloads in-process,
+  d) computes p50/p95/p99 latency and error rate,
+  e) writes all required artifacts.
+- Minimal patch set (code changes and/or DB migrations) needed to reproduce the improvement.

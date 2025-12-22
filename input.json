@@ -1,20 +1,47 @@
 {
   "test_id": "performance_api_pagination_latency",
-  "objective": "detect latency regression on paginated REST API under authenticated load",
+  "task_mode": "optimize_and_verify",
+  "objective": "optimize API implementation so that paginated endpoints meet latency SLA under authenticated concurrent load, using in-process execution",
+
+  "execution": {
+    "model": "in_process",
+    "description": "Do not start an external HTTP server. Execute the workload by directly invoking the same handler code paths used by the API, using concurrent in-process execution to simulate load."
+  },
+
+  "entrypoints": {
+    "app_import": "app",
+    "handler_map": {
+      "GET /api/users": "handlers.get_users",
+      "GET /api/users/1/followers": "handlers.get_user_followers"
+    },
+    "notes": "Handlers must preserve the same logic, authentication checks, pagination semantics, and ORM/database behavior as the HTTP API."
+  },
+
   "environment": {
-    "base_url": "http://localhost:5000",
     "auth": {
       "type": "bearer",
-      "token": "{{TOKEN}}"
+      "mode": "fixed_test_token",
+      "token": "test-token",
+      "description": "For local testing, this fixed token is always accepted. No user input is required."
     }
   },
-  "workload": {
-    "dataset_assumption": {
+
+  "dataset": {
+    "assumption": {
       "users": ">=10000",
       "relationships": ">=10000"
     },
+    "seed": {
+      "required": true,
+      "cmd": "python seed_db.py",
+      "description": "Populate the database with at least 10k users and follower relationships before running the workload."
+    }
+  },
+
+  "workload": {
     "requests": [
       {
+        "id": "list_users",
         "method": "GET",
         "endpoint": "/api/users",
         "query": {
@@ -23,6 +50,7 @@
         }
       },
       {
+        "id": "followers_page",
         "method": "GET",
         "endpoint": "/api/users/1/followers",
         "query": {
@@ -33,28 +61,59 @@
     ],
     "load_profile": {
       "total_requests": 2000,
-      "concurrency": 50
+      "concurrency": 50,
+      "warmup_requests": 200,
+      "runs": {
+        "baseline": 1,
+        "optimized": 1
+      },
+      "timeout_ms": 5000
     }
   },
+
   "metrics": {
     "latency_ms": {
       "p50": "<= 150",
       "p95": "<= 300",
       "p99": "<= 500"
     },
-    "http_status": 200,
+    "expected_status": 200,
     "error_rate": "<= 0.1%"
   },
+
+  "comparison": {
+    "baseline_required": true,
+    "labels": {
+      "baseline": "before_optimization",
+      "optimized": "after_optimization"
+    },
+    "must_report": [
+      "p50_latency",
+      "p95_latency",
+      "p99_latency",
+      "error_rate",
+      "status_code_distribution"
+    ]
+  },
+
   "evidence_required": [
     "raw_latency_distribution",
     "p50_p95_p99_comparison_before_after",
     "database_query_count_per_request",
     "slow_query_log_excerpt",
-    "optimization_summary"
+    "optimization_summary",
+    "commands_executed_log",
+    "run_output_log"
   ],
+
   "failure_conditions": [
+    "dataset_not_seeded",
+    "no_baseline_results",
+    "no_optimized_results",
     "p95_latency_exceeds_threshold",
-    "http_status_not_200",
-    "error_rate_exceeds_threshold"
+    "p99_latency_exceeds_threshold",
+    "error_rate_exceeds_threshold",
+    "missing_required_artifacts",
+    "evidence_indicates_simulation_or_fabrication"
   ]
 }
