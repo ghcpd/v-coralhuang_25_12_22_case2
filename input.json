@@ -1,0 +1,60 @@
+{
+  "test_id": "performance_api_pagination_latency",
+  "objective": "detect latency regression on paginated REST API under authenticated load",
+  "environment": {
+    "base_url": "http://localhost:5000",
+    "auth": {
+      "type": "bearer",
+      "token": "{{TOKEN}}"
+    }
+  },
+  "workload": {
+    "dataset_assumption": {
+      "users": ">=10000",
+      "relationships": ">=10000"
+    },
+    "requests": [
+      {
+        "method": "GET",
+        "endpoint": "/api/users",
+        "query": {
+          "page": 1,
+          "per_page": 100
+        }
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/users/1/followers",
+        "query": {
+          "page": 1,
+          "per_page": 100
+        }
+      }
+    ],
+    "load_profile": {
+      "total_requests": 2000,
+      "concurrency": 50
+    }
+  },
+  "metrics": {
+    "latency_ms": {
+      "p50": "<= 150",
+      "p95": "<= 300",
+      "p99": "<= 500"
+    },
+    "http_status": 200,
+    "error_rate": "<= 0.1%"
+  },
+  "evidence_required": [
+    "raw_latency_distribution",
+    "p50_p95_p99_comparison_before_after",
+    "database_query_count_per_request",
+    "slow_query_log_excerpt",
+    "optimization_summary"
+  ],
+  "failure_conditions": [
+    "p95_latency_exceeds_threshold",
+    "http_status_not_200",
+    "error_rate_exceeds_threshold"
+  ]
+}

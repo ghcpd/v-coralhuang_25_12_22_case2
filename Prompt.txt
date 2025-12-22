@@ -1,0 +1,57 @@
+You are a **senior backend engineer** with strong experience in API performance tuning, database optimization, and production-grade benchmarking. You are expected to work hands-on, modify real code, and run real tests. Superficial analysis or hypothetical answers are not acceptable.
+
+Sub-Type: Performance optimization
+
+Example Scenarios to Test:
+You are facing an API whose response latency exceeds the defined SLA threshold under realistic load conditions on paginated REST endpoints protected by Bearer-token authentication.
+
+Your optimization task is driven by a single canonical JSON file named `input`. This file is the **single source of truth** and fully defines the target system and constraints, including:
+
+* `base_url` of the running service
+* an auth token placeholder `{{TOKEN}}`
+* the exact request set that must be optimized (`GET /api/users` and `GET /api/users/1/followers` with `page=1&per_page=100`)
+* the load profile (`total_requests=2000`, `concurrency=50`)
+* SLA requirements (P50 / P95 / P99 latency thresholds)
+* expected HTTP status and allowed error rate
+* required evidence artifacts and explicit failure conditions
+
+Your job is **NOT** to design or propose a testing framework.
+Your job is to **optimize the actual API implementation** so that when the workload defined in `input` is executed, the measured latency meets the SLA, while preserving correctness and REST constraints (statelessness, Bearer-token authentication, pagination semantics, and stable JSON contracts).
+
+Your optimization work is expected to include, but is not limited to:
+
+* eliminating avoidable database work (e.g. redundant `count()` calls, N+1 relationship queries)
+* improving query plans and adding or adjusting indexes where necessary
+* reducing ORM inefficiencies in paginated collection endpoints
+* ensuring authentication and pagination logic do not introduce unnecessary overhead
+
+You must validate every claimed improvement by **actually running the workload** defined in `input`.
+
+Inputs / How to Execute the Test:
+
+* File: `input` (canonical JSON)
+* You must read and interpret `input` directly; do not hardcode assumptions outside what is specified there.
+* `{{TOKEN}}` must be supplied via an environment variable named `TOKEN`.
+* You must execute the workload multiple times (before and after optimization) to validate improvements and rule out regressions or noise.
+
+Expected Deliverable / Evidence:
+
+* `README.md` that clearly explains:
+
+  * what you optimized and why, including concrete root-cause analysis tied to observed latency
+  * how `input` is used and how to reproduce the results step by step
+  * how to run the optimized system and verify that the SLA is met
+
+* A reproducible environment definition:
+
+  * at minimum `requirements.txt`
+  * optionally a `Dockerfile` if isolation is required
+
+* A `run_tests` script (one-command runner) that **you actually use** to produce results, which:
+
+  1. verifies the service defined by `input.base_url` is reachable,
+  2. executes the workload exactly as described in `input` using `TOKEN`,
+  3. reports P50 / P95 / P99 latency, HTTP status distribution, error rate, and explicit pass/fail against `input.metrics`,
+  4. emits the evidence artifacts required by `input.evidence_required`, including before/after comparisons and supporting logs.
+
+* Concrete before/after evidence demonstrating that the SLA is satisfied **after** optimization, plus the minimal patch set (code changes and/or database migrations) required to reproduce the improvement.
