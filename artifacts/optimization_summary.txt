@@ -1,0 +1,1 @@
+Applied batched follower counts in `get_users` and batched user fetch in `get_user_followers` to avoid N+1 queries.
