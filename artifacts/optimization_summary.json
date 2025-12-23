@@ -1,0 +1,9 @@
+{
+  "what": "Removed N+1 queries; replaced per-row lookups with set-based JOINs and aggregated counts; added indexes on followers",
+  "why": "Reduce DB round-trips and CPU overhead under concurrent load",
+  "changes": [
+    "handlers.py: set-based SQL for follower counts and follower lists",
+    "seed_db.py: ensure indexes"
+  ],
+  "expected_effect": "Lower DB query count per request and reduced p50/p95/p99 latency"
+}
