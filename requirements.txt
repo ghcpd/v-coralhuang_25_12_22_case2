@@ -1,0 +1,5 @@
+Flask==2.3.3
+SQLAlchemy==1.4.53
+alembic==1.12.1
+requests==2.31.0
+numpy==1.24.3
