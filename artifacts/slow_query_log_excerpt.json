@@ -1,0 +1,38 @@
+{
+  "list_users_queries": [
+    {
+      "sql": "SELECT COUNT(1) FROM users",
+      "params": null,
+      "rowcount": -1
+    },
+    {
+      "sql": "SELECT id, username FROM users ORDER BY id",
+      "params": null,
+      "rowcount": -1
+    }
+  ],
+  "followers_queries": [
+    {
+      "sql": "SELECT COUNT(1) FROM followers WHERE followee_id = ?",
+      "params": [
+        1
+      ],
+      "rowcount": -1
+    },
+    {
+      "sql": "SELECT follower_id FROM followers WHERE followee_id = ? ORDER BY follower_id",
+      "params": [
+        1
+      ],
+      "rowcount": -1
+    },
+    {
+      "sql": "SELECT id, username FROM users WHERE id = ?",
+      "params": [
+        11506
+      ],
+      "rowcount": -1
+    }
+  ],
+  "notes": "Queries captured from baseline handlers; durations not available with sqlite wrapper, flagged by heuristic (full-table SELECT, repeated per-row SELECT)."
+}

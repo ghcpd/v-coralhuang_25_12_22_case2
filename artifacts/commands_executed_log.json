@@ -1,0 +1,7 @@
+[
+  "handler=handlers_optimized.get_users",
+  "seed_db.py (if run)",
+  "handler=handlers_optimized.get_user_followers",
+  "handler=handlers_baseline.get_user_followers",
+  "handler=handlers_baseline.get_users"
+]
