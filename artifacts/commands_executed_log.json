@@ -1,0 +1,4 @@
+[
+  "python seed_db.py",
+  "python run_tests.py"
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.0965428352355957
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.08834266662597656
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.08749771118164062
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.08577990531921387
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.0792078971862793
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.07646751403808594
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.0713658332824707
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.0706930160522461
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.07008576393127441
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06983661651611328
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06954407691955566
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06604170799255371
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06519699096679688
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06478142738342285
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06471681594848633
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06444334983825684
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06285262107849121
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.0627298355102539
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.062265634536743164
+  },
+  {
+    "sql": "\n        SELECT u.id, u.username, u.bio, COALESCE(f.cnt, 0) AS follower_count\n        FROM users u\n        LEFT JOIN (\n            SELECT followee_id, COUNT(1) AS cnt FROM followers GROUP BY followee_id\n        ) f ON u.id = f.followee_id\n        ORDER BY u.id\n        LIMIT ? OFFSET ?\n        ",
+    "params": [
+      100,
+      0
+    ],
+    "duration": 0.06144881248474121
+  }
+]

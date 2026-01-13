@@ -1,0 +1,11 @@
+{
+  "baseline_status_counts": {
+    "200": 1104,
+    "504": 1448
+  },
+  "optimized_status_counts": {
+    "200": 2000
+  },
+  "baseline_count": 2552,
+  "optimized_count": 2000
+}
